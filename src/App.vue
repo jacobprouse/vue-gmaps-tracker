@@ -4,9 +4,10 @@
     <h1 class="header">Vue Gmaps Tracker</h1>
     <div class="description">
       <p>Track your products all over the world!<img :src="`${baseURL}/marker_red.png`" alt=""></p>
+      <p>Upload a json file using structure suggested in the <a href="https://github.com/jacobprouse/vue-gmaps-tracker/blob/setup/README.md">README.md</a></p>
     </div>
     <!--  Current Location -->
-    <p class="current-location"> You are centered on <span>{{ currentLocation.name }}</span></p>
+    <p class="current-location"> You are centered on {{ currentLocation.name }}</p>
     <!-- Map -->
     <div ref="map" class="map" />
     <!-- Location List -->
@@ -212,12 +213,6 @@ ul {
     grid-area: location;
     text-align: center;
     align-self: flex-end;
-
-    // Location Name
-    span {
-      color: green;
-      border: 1px solid green;
-    }
   }
 
   // Location List 
