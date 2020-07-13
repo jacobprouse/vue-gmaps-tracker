@@ -4,15 +4,20 @@
     <h1 class="header">Vue Gmaps Tracker</h1>
     <div class="description">
       <p>Track your products all over the world!<img :src="`${baseURL}/marker_red.png`" alt=""></p>
-      <p>Upload a json file using structure suggested in the <a href="https://github.com/jacobprouse/vue-gmaps-tracker/blob/setup/README.md">README.md</a></p>
+      <p>Copy and paste json using structure suggested in the <a href="https://github.com/jacobprouse/vue-gmaps-tracker/blob/master/README.md">README.md</a></p>
     </div>
-    <!--  Current Location -->
-    <p class="current-location"> You are centered on {{ currentLocation.name }}</p>
     <!-- Map -->
     <div ref="map" class="map" />
+    <!-- Json Area -->
+    <div class="json-area">
+      <p><strong>JSON Data</strong></p>
+      <textarea v-model.lazy="json" aria-required="true" :aria-invalid="!valid" placeholder="Paste JSON here..." />
+      <button :disabled="!valid" alt="Load a new map." title="Load a new map" @click="makeMap">Load Map</button>
+      <p v-if="!valid" class="error" aria-hidden="true" role="alert">Invalid JSON</p>
+    </div>
     <!-- Location List -->
     <div class="sidebar">
-      <p><strong>Locations</strong></p>
+      <p v-if="locations.length"><strong>Locations</strong></p>
       <ul>
         <!-- Legend Entry -->
         <li
@@ -29,6 +34,8 @@
           </button>
         </li>
       </ul>
+      <!--  Current Location -->
+      <p v-if="currentLocation" class="current-location"> You are centered on {{ currentLocation.name }}</p>
     </div>
     <!-- Legend -->
     <div class="legend">
@@ -50,24 +57,60 @@ export default {
   name: 'App',
   data () {
     return {
-      locations: [
-        {lat: 43.653225, lng: -79.4, name:'Toronto', level: 10, id: 1},
-        {lat: 43.653225, lng: -79.5, name:'Toronto2', level: 50, id: 2},
-        {lat: 43.653225, lng: -79.6, name:'Toronto3', level: 60, id: 3}
-      ],
+      // locations: [
+      //   {"lat": 43.653225, "lng": -79.4, "name":'Toronto', "level": 10, "id": 1},
+      //   {"lat": 43.653225, "lng": -79.5, "name":'Toronto1', "level": 10, "id": 1},
+      //   {"lat": 43.653225, "lng": -79.6, "name":'Toronto2', "level": 10, "id": 1},
+      // ],
       currentLocation: null,
       map: null,
       google: null,
       markers: [],
       icons: {},
-      baseURL: process.env.VUE_APP_BASE_URL
+      baseURL: process.env.VUE_APP_BASE_URL,
+      json: "",
+      threshold: parseInt(process.env.VUE_APP_THRESHOLD) || 50
     }
   },
-  async beforeMount () {
-    this.currentLocation = this.locations[this.locations.findIndex(location => !this.disabled(location))]
+  computed: {
+    valid () {
+      if (Array.isArray(this.parsedJSON) && this.parsedJSON.length) {
+        for (let i = this.parsedJSON.length; i--;) {
+          if (Object.keys(this.parsedJSON).includes('level', 'lat', 'lng', 'name') &&
+            typeof this.parsedJSON.level === 'number' &&
+            typeof this.parsedJSON.lat === 'number' &&
+            typeof this.parsedJSON.lng === 'number' &&
+            typeof this.parsedJSON.name === 'string') continue
+          else return false
+        }
+        return true
+      } else if (Object.keys(this.parsedJSON).includes('level', 'lat', 'lng', 'name') &&
+          typeof this.parsedJSON.level === 'number' &&
+          typeof this.parsedJSON.lat === 'number' &&
+          typeof this.parsedJSON.lng === 'number' &&
+          typeof this.parsedJSON.name === 'string') {
+        return true
+      }
+      return false
+    },
+    locations () {
+      if(this.valid) {
+        if (Array.isArray(this.parsedJSON)) return this.parsedJSON
+        return [this.parsedJSON]
+      }
+      return []
+    },
+    parsedJSON () {
+      try{
+        return JSON.parse(this.json)
+      } catch {
+        return []
+      }
+    }
   },
   async mounted() {
-    await this.initializeMap()
+    // Initialize the google maps API connection (add script)
+    await gmapsInit()
   },
   methods: {
     goTo (location) {
@@ -75,7 +118,9 @@ export default {
       this.map.setCenter(this.currentLocation)
     },
     disabled (location) {
-      if (location.level <= 50) return true
+      if (location.selected) return false
+      // By default locations will not be selected if they have less than the threshold
+      if (location.level < this.threshold || location.selected === false) return true
       return false
     },
     makeIcons () {
@@ -131,10 +176,10 @@ export default {
         this.markers.push(marker)
       }
     },
-    async initializeMap() {
+    async makeMap() {
       try {
-        // Initialize the google maps API connection (add script)
-        const google = await gmapsInit()
+        this.markers = []
+        this.currentLocation = this.locations[0]
         this.map = new google.maps.Map(this.$refs.map,
         {
           center: this.currentLocation,
@@ -165,9 +210,6 @@ ul {
   padding-left: 0;
 }
 
-// Style Anchors
-
-
 // Main App
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -179,8 +221,7 @@ ul {
   grid-template-areas: 
   ". . header . ."
   ". . description . ."
-  ". . location . ."
-  ". sidebar map json ."
+  ". sidebar map json-area ."
   ". . legend . .";
 
   // Header
@@ -208,11 +249,33 @@ ul {
     }
   }
 
-  // Current Location Text
-  .current-location {
-    grid-area: location;
-    text-align: center;
-    align-self: flex-end;
+  // Json Area =
+  .json-area {
+    grid-area: json-area;
+    display: flex;
+    margin-left: 20px;
+    flex-direction: column;
+
+    button {
+      width: 50%;
+    }
+
+    .error {
+      color: red
+    }
+
+    p {
+      margin-top: 0;
+    }
+
+    textarea {
+      min-width: 50%;
+      width: 400px;
+      max-width: 80%;
+      min-height: 25px;
+      height: 400px;
+      max-height: 500px;
+    }
   }
 
   // Location List 
@@ -223,6 +286,10 @@ ul {
     display: flex;
     flex-direction: column;
     padding: 0 40px;
+
+    :nth-child(1) {
+      margin-top: 0;
+    }
     
     // Style each list element
     .location-button {
@@ -232,6 +299,13 @@ ul {
 
       // Style an inactive list element
       &-inactive { border: 1px solid black; }
+    }
+
+    // Current Location Text
+    .current-location {
+      grid-area: location;
+      text-align: left;
+      word-break: break-word;
     }
   }
 
@@ -268,6 +342,8 @@ ul {
       justify-content: center;
 
       p { padding-right: 30px; }
+
+      img { align-self: center; }
     }
   }
 }
