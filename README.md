@@ -1,5 +1,21 @@
 # vue-gmaps-tracker
 
+I made this repo to experience setting up a live web app. Its purpose is to track the product levels at a business' locations.
+
+## Suggested JSON structure
+```
+[
+  {
+    lat: ###,
+    lng: ###,
+    name: ###,
+    level: ###,
+    id: ###
+  },
+  ...
+]
+```
+
 ## Project setup
 ```
 npm install
