@@ -1,7 +1,9 @@
 <template>
   <div id="app" class="main-grid">
     <!-- Header -->
-    <h1 class="header">Vue Gmaps Tracker</h1>
+    <h1 class="header">
+      Vue Gmaps Tracker
+    </h1>
     <div class="description">
       <p>Track your products all over the world!<img :src="`${baseURL}/marker_red.png`" alt=""></p>
       <p>Copy and paste json using structure suggested in the <a href="https://github.com/jacobprouse/vue-gmaps-tracker/blob/master/README.md">README.md</a></p>
@@ -12,12 +14,18 @@
     <div class="json-area">
       <p><strong>JSON Data</strong></p>
       <textarea v-model.lazy="json" aria-required="true" :aria-invalid="!valid" placeholder="Paste JSON here..." />
-      <button :disabled="!valid" alt="Load a new map." title="Load a new map" @click="makeMap">Load Map</button>
-      <p v-if="!valid" class="error" aria-hidden="true" role="alert">Invalid JSON</p>
+      <button :disabled="!valid" alt="Load a new map." title="Load a new map" @click="makeMap">
+        Load Map
+      </button>
+      <p v-if="!valid" class="error" aria-hidden="true" role="alert">
+        Invalid JSON
+      </p>
     </div>
     <!-- Location List -->
     <div class="sidebar">
-      <p v-if="locations.length"><strong>Locations</strong></p>
+      <p v-if="locations.length">
+        <strong>Locations</strong>
+      </p>
       <ul>
         <!-- Legend Entry -->
         <li
@@ -35,15 +43,23 @@
         </li>
       </ul>
       <!--  Current Location -->
-      <p v-if="currentLocation" class="current-location"> You are centered on {{ currentLocation.name }}</p>
+      <p v-if="currentLocation" class="current-location">
+        You are centered on {{ currentLocation.name }}
+      </p>
     </div>
     <!-- Legend -->
     <div class="legend">
-      <p class="legend-title">Legend</p>
+      <p class="legend-title">
+        Legend
+      </p>
       <div class="legend-container">
         <ul>
-          <li class="legend-entry"><p>Active Marker</p><img :src="`${baseURL}/marker_red.png`" alt="Selected Marker"></li>
-          <li class="legend-entry"><p>Inactive Marker</p><img :src="`${baseURL}/marker_gray.png`" alt="Not Selected Marker"></li>
+          <li class="legend-entry">
+            <p>Active Marker</p><img :src="`${baseURL}/marker_red.png`" alt="Selected Marker">
+          </li>
+          <li class="legend-entry">
+            <p>Inactive Marker</p><img :src="`${baseURL}/marker_gray.png`" alt="Not Selected Marker">
+          </li>
         </ul>
       </div>
     </div>
