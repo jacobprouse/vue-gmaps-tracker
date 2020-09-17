@@ -153,9 +153,6 @@ export default {
     }
   },
   async mounted () {
-    log('Mounting')
-    // Initialize the google maps API connection (add script).
-    // await gmapsInit()
     try {
       log('Connecting to the Google Maps API...')
       // Initialize the google maps API connection (add script).
