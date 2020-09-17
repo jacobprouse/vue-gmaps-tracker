@@ -69,6 +69,7 @@
 <script>
 import debug from 'debug'
 import gmapsInit from '@/utils/gmaps'
+import { Location } from '@/utils/classes'
 
 const log = debug('vgm:container')
 log.log = console.log.bind(console)
@@ -110,21 +111,20 @@ export default {
     valid () {
       // If the json is a json array, loop through and check the property types.
       // Otherwise just check properties
-      if (Array.isArray(this.parsedJSON) && this.parsedJSON.length) {
-        for (let i = this.parsedJSON.length; i--;) {
-          if (Object.keys(this.parsedJSON).includes('level', 'lat', 'lng', 'name') &&
-            typeof this.parsedJSON.level === 'number' &&
-            typeof this.parsedJSON.lat === 'number' &&
-            typeof this.parsedJSON.lng === 'number' &&
-            typeof this.parsedJSON.name === 'string') continue
-          else return false
+      let json = this.parsedJSON
+      if (!Array.isArray(this.parsedJSON)) json = [this.parsedJSON]
+      if (Array.isArray(json) && json.length) {
+        for (let i = json.length; i--;) {
+          try {
+            // Check to see if it obeys the properties.
+            new Location(
+              {...json[i]}
+            )
+          } catch (error) {
+            log(error)
+            return false
+          }
         }
-        return true
-      } else if (Object.keys(this.parsedJSON).includes('level', 'lat', 'lng', 'name') &&
-          typeof this.parsedJSON.level === 'number' &&
-          typeof this.parsedJSON.lat === 'number' &&
-          typeof this.parsedJSON.lng === 'number' &&
-          typeof this.parsedJSON.name === 'string') {
         return true
       }
       return false
@@ -172,10 +172,13 @@ export default {
       this.currentLocation = location
       this.map.setCenter(this.currentLocation)
     },
+    /**
+		 * Check a location's level against its threshold.
+		 */
     disabled (location) {
       if (location.selected) return false
       // By default locations will not be selected if they have less than the threshold.
-      if (location.level < this.threshold || location.selected === false) return true
+      if (location.level < location.threshold || location.selected === false) return true
       return false
     },
     makeIcons () {
