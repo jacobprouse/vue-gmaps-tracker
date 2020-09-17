@@ -94,12 +94,22 @@ export default {
     }
   },
   computed: {
+    /**
+		 * Used to determine the disabled state of UI elements.
+		 * @computed
+		 */
     disableUi () {
       // If the map has not been initialized.
       if (!this.map) return true
       return false
     },
+    /**
+		 * Determines if the json is valid.
+		 * @computed
+		 */
     valid () {
+      // If the json is a json array, loop through and check the property types.
+      // Otherwise just check properties
       if (Array.isArray(this.parsedJSON) && this.parsedJSON.length) {
         for (let i = this.parsedJSON.length; i--;) {
           if (Object.keys(this.parsedJSON).includes('level', 'lat', 'lng', 'name') &&
@@ -119,6 +129,10 @@ export default {
       }
       return false
     },
+    /**
+		 * Formats the incoming json and provides a fallback.
+		 * @computed
+		 */
     locations () {
       if (this.valid) {
         if (Array.isArray(this.parsedJSON)) return this.parsedJSON
@@ -126,6 +140,10 @@ export default {
       }
       return []
     },
+    /**
+		 * Parses the json, and will catch errors from parsing.
+		 * @computed
+		 */
     parsedJSON () {
       try{
         return JSON.parse(this.json)
@@ -138,8 +156,21 @@ export default {
     log('Mounting')
     // Initialize the google maps API connection (add script).
     // await gmapsInit()
+    try {
+      log('Connecting to the Google Maps API...')
+      // Initialize the google maps API connection (add script).
+      await gmapsInit()
+      log('Connected to the Google Maps API.')
+    } catch (error) {
+      log('The Container component failed to mount with the following error: ', error)
+    }
   },
   methods: {
+    /**
+		 * Set the map on a location.
+		 * @function
+		 * @param {object} location - An object with properties following the README's direction.
+		 */
     goTo (location) {
       this.currentLocation = location
       this.map.setCenter(this.currentLocation)
@@ -178,6 +209,8 @@ export default {
             icon: this.disabled(location) ? this.icons.inactive : this.icons.active
           }
         )
+
+        // Create Content
         const content = `
           <div>
             <h4>${location.name}</h4>
