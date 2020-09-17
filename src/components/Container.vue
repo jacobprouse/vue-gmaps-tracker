@@ -183,13 +183,12 @@ export default {
     },
     makeIcons () {
       const inactiveMarker = {
-        url: `${baseURL}/marker_gray.png`,
+        url: `http://localhost:8080/marker_gray.png`,
         size: new google.maps.Size(20, 32),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(0, 32)
       }
       const activeMarker = {
-        url: `${baseURL}/marker_red.png`,
         size: new google.maps.Size(20, 32),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(0, 32)
