@@ -248,10 +248,10 @@ export default {
         this.currentLocation = this.locations[0]
         // Make a gmaps instance centered on the current location with moderate zoom.
         this.map = new google.maps.Map(this.$refs.map,
-        {
-          center: this.currentLocation,
-          zoom: 8
-        })
+          {
+            center: this.currentLocation,
+            zoom: 8
+          })
         // Add markers to the map.
         this.addMarkers()
       } catch (error) {
