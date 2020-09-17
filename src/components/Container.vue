@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="main-grid">
+  <div id="container" class="main-grid">
     <!-- Header -->
     <h1 class="header">
       Vue Gmaps Tracker
@@ -67,10 +67,14 @@
 </template>
 
 <script>
+import debug from 'debug'
 import gmapsInit from '@/utils/gmaps'
 
+const log = debug('vgm:container')
+log.log = console.log.bind(console)
+
 export default {
-  name: 'App',
+  name: 'Container',
   data () {
     return {
       // locations: [
@@ -78,6 +82,7 @@ export default {
       //   {"lat": 43.653225, "lng": -79.5, "name":'Toronto1', "level": 10, "id": 1},
       //   {"lat": 43.653225, "lng": -79.6, "name":'Toronto2', "level": 10, "id": 1},
       // ],
+      apiKey: null,
       currentLocation: null,
       map: null,
       google: null,
@@ -130,8 +135,9 @@ export default {
     }
   },
   async mounted () {
-    // Initialize the google maps API connection (add script)
-    await gmapsInit()
+    log('Mounting')
+    // Initialize the google maps API connection (add script).
+    // await gmapsInit()
   },
   methods: {
     goTo (location) {
@@ -140,7 +146,7 @@ export default {
     },
     disabled (location) {
       if (location.selected) return false
-      // By default locations will not be selected if they have less than the threshold
+      // By default locations will not be selected if they have less than the threshold.
       if (location.level < this.threshold || location.selected === false) return true
       return false
     },
@@ -184,9 +190,9 @@ export default {
 
         // Add bounce animation with a timeout
         marker.addListener('click', function () {
-          marker.setAnimation(google.maps.Animation.BOUNCE);
+          marker.setAnimation(google.maps.Animation.BOUNCE)
           setTimeout(function () {
-            marker.setAnimation(null);
+            marker.setAnimation(null)
           }, 200)
         })
 
@@ -197,18 +203,26 @@ export default {
         this.markers.push(marker)
       }
     },
+    /**
+     * Instansiate maps api on the map area.
+     * @function
+     */
     async makeMap () {
       try {
+        // Initialize array.
         this.markers = []
+        // Set the current location.
         this.currentLocation = this.locations[0]
+        // Make a gmaps instance centered on the current location with moderate zoom.
         this.map = new google.maps.Map(this.$refs.map,
         {
           center: this.currentLocation,
           zoom: 8
         })
+        // Add markers to the map.
         this.addMarkers()
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     }
   }
@@ -232,7 +246,7 @@ ul {
 }
 
 // Main App
-#app {
+#container {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   margin-top: 40px;
   display: grid;

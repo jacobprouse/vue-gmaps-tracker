@@ -39,6 +39,7 @@
         "multiline": "never"
       }],
       "no-trailing-spaces": "error",
-      "space-before-function-paren": ["error", "always"]
+      "space-before-function-paren": ["error", "always"],
+      "semi": ["error", "never"]
     }
 }
