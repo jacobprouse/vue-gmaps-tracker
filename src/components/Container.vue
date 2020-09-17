@@ -181,6 +181,10 @@ export default {
       if (location.level < location.threshold || location.selected === false) return true
       return false
     },
+    /**
+		 * Set the icons.
+		 * @function
+		 */
     makeIcons () {
       const inactiveMarker = {
         url: `http://localhost:8080/marker_gray.png`,
@@ -196,6 +200,10 @@ export default {
       this.icons.active = activeMarker
       this.icons.inactive = inactiveMarker
     },
+    /**
+		 * Add the markers to the map.
+		 * @function
+		 */
     addMarkers () {
       this.makeIcons()
       for (let i = this.locations.length; i--;) {
