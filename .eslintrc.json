@@ -37,6 +37,8 @@
       "vue/html-closing-bracket-newline": ["error", {
         "singleline": "never",
         "multiline": "never"
-      }]
+      }],
+      "no-trailing-spaces": "error",
+      "space-before-function-paren": ["error", "always"]
     }
 }

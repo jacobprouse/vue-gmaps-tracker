@@ -36,7 +36,7 @@
             :disabled="disabled(location)"
             :alt="`Click to center ${location.name} on the map.`"
             class="location-button"
-            :class="{'location-button-inactive': disabled(location)}" 
+            :class="{'location-button-inactive': disabled(location)}"
             @click="goTo(location)">
             {{ location.name }}
           </button>
@@ -115,7 +115,7 @@ export default {
       return false
     },
     locations () {
-      if(this.valid) {
+      if (this.valid) {
         if (Array.isArray(this.parsedJSON)) return this.parsedJSON
         return [this.parsedJSON]
       }
@@ -129,7 +129,7 @@ export default {
       }
     }
   },
-  async mounted() {
+  async mounted () {
     // Initialize the google maps API connection (add script)
     await gmapsInit()
   },
@@ -160,7 +160,7 @@ export default {
       this.icons.active = activeMarker
       this.icons.inactive = inactiveMarker
     },
-    addMarkers() {
+    addMarkers () {
       this.makeIcons()
       for (let i = this.locations.length; i--;) {
         const location = this.locations[i]
@@ -197,7 +197,7 @@ export default {
         this.markers.push(marker)
       }
     },
-    async makeMap() {
+    async makeMap () {
       try {
         this.markers = []
         this.currentLocation = this.locations[0]
@@ -239,7 +239,7 @@ ul {
   grid-template-columns: 5% 30% 30% 30% 5%;
   grid-template-rows: auto;
   // Layout of the app
-  grid-template-areas: 
+  grid-template-areas:
   ". . header . ."
   ". . description . ."
   ". sidebar map json-area ."
@@ -299,7 +299,7 @@ ul {
     }
   }
 
-  // Location List 
+  // Location List
   .sidebar {
     grid-area: sidebar;
     width: 30%;
@@ -311,7 +311,7 @@ ul {
     :nth-child(1) {
       margin-top: 0;
     }
-    
+
     // Style each list element
     .location-button {
       border: 1px solid blue;
@@ -351,13 +351,13 @@ ul {
     }
 
     // Legend Container for list
-    &-container { 
+    &-container {
       width: 50%;
       justify-self: center;
     }
 
     // Legend Entry
-    &-entry { 
+    &-entry {
       display: flex;
       text-align: left;
       justify-content: center;
