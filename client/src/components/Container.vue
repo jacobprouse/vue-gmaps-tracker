@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import debug from 'debug'
 import gmapsInit from '@/utils/gmaps'
 import { Location } from '@/utils/classes'
@@ -78,11 +79,6 @@ export default {
   name: 'Container',
   data () {
     return {
-      // locations: [
-      //   {"lat": 43.653225, "lng": -79.4, "name":'Toronto', "level": 10, "id": 1},
-      //   {"lat": 43.653225, "lng": -79.5, "name":'Toronto1', "level": 10, "id": 1},
-      //   {"lat": 43.653225, "lng": -79.6, "name":'Toronto2', "level": 10, "id": 1},
-      // ],
       apiKey: null,
       currentLocation: null,
       map: null,
@@ -163,6 +159,9 @@ export default {
     }
   },
   methods: {
+    getLocations () {
+
+    },
     /**
 		 * Set the map on a location.
 		 * @function
@@ -174,6 +173,7 @@ export default {
     },
     /**
 		 * Check a location's level against its threshold.
+     * @function
 		 */
     disabled (location) {
       if (location.selected) return false
@@ -187,12 +187,13 @@ export default {
 		 */
     makeIcons () {
       const inactiveMarker = {
-        url: `http://localhost:8080/marker_gray.png`,
+        url: `${this.baseURL}/marker_gray.png`,
         size: new google.maps.Size(20, 32),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(0, 32)
       }
       const activeMarker = {
+        url: `${this.baseURL}/marker_red.png`,
         size: new google.maps.Size(20, 32),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(0, 32)
