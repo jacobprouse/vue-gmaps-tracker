@@ -5,14 +5,14 @@
 </template>
 
 <script>
-import Container from '@/components/Container.vue'
+import Container from "@/components/Container.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Container
-  }
-}
+    Container,
+  },
+};
 </script>
 <style lang="scss">
 #app {

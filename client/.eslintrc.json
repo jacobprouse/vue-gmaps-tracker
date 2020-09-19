@@ -1,47 +1,14 @@
 {
-  "extends": [
-    "plugin:vue/base",
-    "plugin:vue/essential",
-    "plugin:vue/strongly-recommended",
-    "plugin:vue/recommended"
-  ],
-  "env": {
-    "browser": true,
-    "commonjs": true,
-    "es6": true
-  },
-  "parserOptions": {
-    "parser": "babel-eslint",
-    "sourceType": "module",
-    "ecmaVersion": 2018,
-    "allowImportExportEverywhere": true
-  },
-  "globals": {
-    "google": true
-  },
-  "plugins": [
-    "vue"
-  ],
-  "rules": {
-      "vue/max-attributes-per-line": ["error", {
-        "singleline": 10,
-        "multiline": {
-          "max": 1,
-          "allowFirstLine": false
-        }
-      }],
-      "vue/multiline-html-element-content-newline": ["off", {
-        "singleline": "never",
-        "multiline": "never"
-      }],
-      "vue/html-closing-bracket-newline": ["error", {
-        "singleline": "never",
-        "multiline": "never"
-      }],
-      "no-trailing-spaces": "error",
-      "space-before-function-paren": ["error", "always"],
-      "semi": ["error", "never"],
-      "indent": ["error", 2],
-      "no-whitespace-before-property": "error"
+    "extends": ["eslint:recommended"],
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "rules": {
+        "max-len": ["error", {
+            "code": 80
+        }],
+        "indent": ["error", 2],
+        "semi": "error"
     }
 }
