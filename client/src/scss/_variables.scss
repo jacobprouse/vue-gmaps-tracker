@@ -1,0 +1,20 @@
+// Colors
+$primary: #3fb27f;
+$secondary: #e2e7de;
+$tertiary: #688159;
+$error: rgba(255, 0, 0);
+
+// Sizes (Padding, Margin, etc...)
+$size-base: 1em;
+$size-sm: $size-base / 2;
+$size-md: $size-base * 1.2;
+$size-lg: $size-base * 1.5;
+
+// Font sizes
+$font-base: 1.5em;
+$font-sm: $font-base * 0.5;
+$font-md: $font-base * 1.2;
+$font-lg: $font-base * 1.5;
+
+// Borders
+$border-radius: 0.25rem;
