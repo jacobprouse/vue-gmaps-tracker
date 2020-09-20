@@ -1,0 +1,41 @@
+{
+  "name": "vue-gmaps-tracker",
+  "version": "1.0.0",
+  "description": "I made this repo to experience setting up a live web app. Its purpose is to track the product levels at a business' locations.",
+  "main": "index.js",
+  "dependencies": {
+    "import-fresh": "^3.2.1",
+    "parent-module": "^1.0.1",
+    "path-is-absolute": "^1.0.1",
+    "path-key": "^3.1.1",
+    "prelude-ls": "^1.2.1",
+    "punycode": "^2.1.1",
+    "resolve-from": "^4.0.0",
+    "shebang-command": "^2.0.0",
+    "shebang-regex": "^3.0.0",
+    "slice-ansi": "^2.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^6.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacobprouse/vue-gmaps-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jacobprouse/vue-gmaps-tracker/issues"
+  },
+  "homepage": "https://github.com/jacobprouse/vue-gmaps-tracker#readme"
+}

@@ -48,7 +48,7 @@
             :disabled="disabled(location)"
             :alt="`Click to center ${location.name} on the map.`"
             class="location-button"
-            :class="{'location-button-inactive': disabled(location)}"
+            :class="{ 'location-button-inactive': disabled(location) }"
             @click="goTo(location)"
           >{{ location.name }}</button>
         </li>
@@ -79,17 +79,17 @@
 </template>
 
 <script>
-import axios from "axios";
-import debug from "debug";
-import gmapsInit from "@/utils/gmaps";
-import { Location } from "@/utils/classes";
+import axios from 'axios'
+import debug from 'debug'
+import gmapsInit from '@/utils/gmaps'
+import { Location } from '@/utils/classes'
 
-const log = debug("vgm:container");
-log.log = console.log.bind(console);
+const log = debug('vgm:container')
+log.log = console.log.bind(console)
 
 export default {
-  name: "Container",
-  data() {
+  name: 'Container',
+  data () {
     return {
       apiKey: null,
       currentLocation: null,
@@ -97,147 +97,146 @@ export default {
       google: null,
       markers: [],
       icons: {},
-      mode: "json",
+      mode: 'json',
       baseURL: process.env.VUE_APP_BASE_URL,
-      json: "",
-      threshold: parseInt(process.env.VUE_APP_THRESHOLD) || 50,
-    };
+      json: '',
+      threshold: parseInt(process.env.VUE_APP_THRESHOLD) || 50
+    }
   },
   computed: {
     /**
      * Used to determine the disabled state of UI elements.
      * @computed
      */
-    disableUi() {
+    disableUi () {
       // If the map has not been initialized.
-      if (!this.map) return true;
-      return false;
+      if (!this.map) return true
+      return false
     },
     /**
      * Determines if the json is valid.
      * @computed
      */
-    valid() {
+    valid () {
       // If the json is a json array, loop through and check the property types.
       // Otherwise just check properties
-      let json = this.parsedJSON;
-      if (!Array.isArray(this.parsedJSON)) json = [this.parsedJSON];
+      let json = this.parsedJSON
+      if (!Array.isArray(this.parsedJSON)) json = [this.parsedJSON]
       if (Array.isArray(json) && json.length) {
-        for (let i = json.length; i--; ) {
+        for (let i = json.length; i--;) {
           try {
             // Check to see if it obeys the properties.
-            new Location({ ...json[i] });
+            Location({ ...json[i] })
           } catch (error) {
-            log(error);
-            return false;
+            log(error)
+            return false
           }
         }
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     /**
      * Stores the current list of locations either
      * from incoming json, or from a database. It also provides a fallback.
      * @computed
      */
-    locations() {
+    locations () {
       // If the user chooses to use json.
-      if (this.mode === "json") {
+      if (this.mode === 'json') {
         if (this.valid) {
-          if (Array.isArray(this.parsedJSON)) return this.parsedJSON;
-          return [this.parsedJSON];
+          if (Array.isArray(this.parsedJSON)) return this.parsedJSON
+          return [this.parsedJSON]
         }
       }
-      return [];
+      return []
     },
     /**
      * Parses the json, and will catch errors from parsing.
      * @computed
      */
-    parsedJSON() {
+    parsedJSON () {
       try {
-        return JSON.parse(this.json);
-      } catch {
-        return [];
+        return JSON.parse(this.json)
+      } catch (error) {
+        return []
       }
-    },
+    }
   },
-  async mounted() {
+  async mounted () {
     try {
-      log("Connecting to the Google Maps API...");
+      log('Connecting to the Google Maps API...')
       // Initialize the google maps API connection (add script).
-      await gmapsInit();
-      await this.getLocations();
-      log("Connected to the Google Maps API.");
+      await gmapsInit()
+      await this.getLocations()
+      log('Connected to the Google Maps API.')
     } catch (error) {
       log(
-        "The Container component failed to mount with the following error: ",
+        'The Container component failed to mount with the following error: ',
         error
-      );
+      )
     }
   },
   methods: {
-    async getLocations() {
-      const response = await axios.get("/api/locations");
-      log(response);
+    async getLocations () {
+      const response = await axios.get('/api/locations')
+      log(response)
     },
     /**
      * Set the map on a location.
      * @function
      * @param {object} location - An object with properties following the README's direction.
      */
-    goTo(location) {
-      this.currentLocation = location;
-      this.map.setCenter(this.currentLocation);
+    goTo (location) {
+      this.currentLocation = location
+      this.map.setCenter(this.currentLocation)
     },
     /**
      * Check a location's level against its threshold.
      * @function
      */
-    disabled(location) {
-      if (location.selected) return false;
+    disabled (location) {
+      if (location.selected) return false
       // By default locations will not be selected if they have less than the threshold.
-      if (location.level < location.threshold || location.selected === false)
-        return true;
-      return false;
+      if (location.level < location.threshold || location.selected === false) { return true }
+      return false
     },
     /**
      * Set the icons.
      * @function
      */
-    makeIcons() {
+    makeIcons () {
       const inactiveMarker = {
         url: `${this.baseURL}/marker_gray.png`,
         size: new google.maps.Size(20, 32),
         origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(0, 32),
-      };
+        anchor: new google.maps.Point(0, 32)
+      }
       const activeMarker = {
         url: `${this.baseURL}/marker_red.png`,
         size: new google.maps.Size(20, 32),
         origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(0, 32),
-      };
-      this.icons.active = activeMarker;
-      this.icons.inactive = inactiveMarker;
+        anchor: new google.maps.Point(0, 32)
+      }
+      this.icons.active = activeMarker
+      this.icons.inactive = inactiveMarker
     },
     /**
      * Add the markers to the map.
      * @function
      */
-    addMarkers() {
-      this.makeIcons();
-      for (let i = this.locations.length; i--; ) {
-        const location = this.locations[i];
+    addMarkers () {
+      this.makeIcons()
+      for (let i = this.locations.length; i--;) {
+        const location = this.locations[i]
         const marker = new google.maps.Marker({
           position: location,
           map: this.map,
           animation: google.maps.Animation.DROP,
           icon: this.disabled(location)
             ? this.icons.inactive
-            : this.icons.active,
-        });
+            : this.icons.active
+        })
 
         // Create Content
         const content = `
@@ -245,49 +244,49 @@ export default {
             <h4>${location.name}</h4>
             <p>The level of this product is ${location.level}</p>
           </div>
-        `;
+        `
         const infoWindow = new google.maps.InfoWindow({
-          content: content,
-        });
+          content: content
+        })
 
         // Add bounce animation with a timeout
-        marker.addListener("click", function () {
-          marker.setAnimation(google.maps.Animation.BOUNCE);
+        marker.addListener('click', function () {
+          marker.setAnimation(google.maps.Animation.BOUNCE)
           setTimeout(function () {
-            marker.setAnimation(null);
-          }, 200);
-        });
+            marker.setAnimation(null)
+          }, 200)
+        })
 
         // Add an info window
-        marker.addListener("click", function () {
-          infoWindow.open(this.map, marker);
-        });
-        this.markers.push(marker);
+        marker.addListener('click', function () {
+          infoWindow.open(this.map, marker)
+        })
+        this.markers.push(marker)
       }
     },
     /**
      * Instansiate maps api on the map area.
      * @function
      */
-    async makeMap() {
+    async makeMap () {
       try {
         // Initialize array.
-        this.markers = [];
+        this.markers = []
         // Set the current location.
-        this.currentLocation = this.locations[0];
+        this.currentLocation = this.locations[0]
         // Make a gmaps instance centered on the current location with moderate zoom.
         this.map = new google.maps.Map(this.$refs.map, {
           center: this.currentLocation,
-          zoom: 8,
-        });
+          zoom: 8
+        })
         // Add markers to the map.
-        this.addMarkers();
+        this.addMarkers()
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss">
