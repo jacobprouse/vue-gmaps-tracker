@@ -1,13 +1,19 @@
 <template>
-  <div id="container" class="main-grid">
+  <div class="main-grid">
     <!-- Header -->
-    <h1 class="header">Vue Gmaps Tracker</h1>
+    <p class="header p p-large">
+      Vue Gmaps Tracker
+      <img
+        class="img img-logo"
+        :src="`${baseURL}/marker_red.png`"
+        alt
+      >
+    </p>
     <div class="description">
-      <p>
+      <p class="p p-medium">
         Track your products all over the world!
-        <img :src="`${baseURL}/marker_red.png`" alt />
       </p>
-      <p>
+      <p class="p p-small">
         Copy and paste json using structure suggested in the
         <a
           href="https://github.com/jacobprouse/vue-gmaps-tracker/blob/master/README.md"
@@ -15,7 +21,10 @@
       </p>
     </div>
     <!-- Map -->
-    <div ref="map" class="map" />
+    <div
+      ref="map"
+      class="map"
+    />
     <!-- Json Area -->
     <div class="json-area">
       <p>
@@ -28,49 +37,74 @@
         placeholder="Paste JSON here..."
       />
       <button
+        class="btn"
         :disabled="!valid"
         alt="Load a new map."
         title="Load a new map"
         @click="makeMap"
-      >Load Map</button>
-      <p v-if="!valid" class="error" aria-hidden="true" role="alert">Invalid JSON</p>
+      >
+        Load Map
+      </button>
+      <p
+        v-if="!valid"
+        class="error"
+        aria-hidden="true"
+        role="alert"
+      >
+        Invalid JSON
+      </p>
     </div>
     <!-- Location List -->
     <div class="sidebar">
       <p v-if="locations.length">
         <strong>Locations</strong>
       </p>
-      <ul>
+      <ul class="list">
         <!-- Legend Entry -->
-        <li v-for="(location, index) in locations" :key="index">
+        <li
+          v-for="(location, index) in locations"
+          :key="index"
+        >
           <button
             :title="disabled(location) ? '' : 'Center on Map'"
             :disabled="disabled(location)"
             :alt="`Click to center ${location.name} on the map.`"
-            class="location-button"
+            class="button location-button"
             :class="{ 'location-button-inactive': disabled(location) }"
             @click="goTo(location)"
-          >{{ location.name }}</button>
+          >
+            {{ location.name }}
+          </button>
         </li>
       </ul>
       <!--  Current Location -->
       <p
         v-if="currentLocation"
         class="current-location"
-      >You are centered on {{ currentLocation.name }}</p>
+      >
+        You are centered on {{ currentLocation.name }}
+      </p>
     </div>
     <!-- Legend -->
     <div class="legend">
-      <p class="legend-title">Legend</p>
+      <p class="legend-title">
+        Legend
+      </p>
       <div class="legend-container">
-        <ul>
+        <ul class="list">
           <li class="legend-entry">
             <p>Active Marker</p>
-            <img :src="`${baseURL}/marker_red.png`" alt="Selected Marker" />
+            <img
+              :src="`${baseURL}/marker_red.png`"
+              alt="Selected Marker"
+            >
           </li>
           <li class="legend-entry">
             <p>Inactive Marker</p>
-            <img :src="`${baseURL}/marker_gray.png`" alt="Not Selected Marker" />
+            <img
+              :src="`${baseURL}/marker_gray.png`"
+              alt="Not Selected Marker"
+            >
           </li>
         </ul>
       </div>
@@ -100,7 +134,8 @@ export default {
       mode: 'json',
       baseURL: process.env.VUE_APP_BASE_URL,
       json: '',
-      threshold: parseInt(process.env.VUE_APP_THRESHOLD) || 50
+      threshold: parseInt(process.env.VUE_APP_THRESHOLD) || 50,
+      providedURL: ''
     }
   },
   computed: {
@@ -150,6 +185,11 @@ export default {
             return [this.parsedJSON]
           }
           break
+        case 'api':
+          // if (this.valid) {
+
+          // }
+          break
         default:
           log('Nothing')
       }
@@ -172,7 +212,6 @@ export default {
       log('Connecting to the Google Maps API...')
       // Initialize the google maps API connection (add script).
       await gmapsInit()
-      await this.getLocations()
       log('Connected to the Google Maps API.')
     } catch (error) {
       log(
@@ -183,7 +222,7 @@ export default {
   },
   methods: {
     async getLocations () {
-      const response = await axios.get('/api/locations')
+      const response = await axios.get(this.providedURL)
       log(response)
     },
     /**
@@ -294,162 +333,207 @@ export default {
 </script>
 
 <style lang="scss">
-$primary: whitesmoke;
+// Colors
+$primary: #3fb27f;
+$secondary: #e2e7de;
+$tertiary: #688159;
+$error: rgba(255, 0, 0);
+
+// Sizes (Padding, Margin, etc...)
+$size-base: 1em;
+$size-sm: $size-base / 2;
+$size-md: $size-base * 1.2;
+$size-lg: $size-base * 1.5;
+
+// Font sizes
+$font-base: 1.5em;
+$font-sm: $font-base * 0.5;
+$font-md: $font-base * 1.2;
+$font-lg: $font-base * 1.5;
+
+// Borders
 $border-radius: 0.25rem;
 
-// Style buttons
-button {
+// Paragraphs
+.p {
+  color: $secondary;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+  &-large {
+    font-size: $font-lg;
+  }
+
+  &-medium {
+    font-size: $font-md;
+  }
+
+  &-small {
+    font-size: $font-sm;
+  }
+}
+
+// Images
+.img {
+  &-logo {
+    display: block;
+    padding: 0 auto;
+  }
+}
+
+// Buttons
+.btn {
   border-radius: 0.25rem;
   padding: 5px;
 }
 
 // Style lists
-ul {
+.list {
   list-style: none;
   padding-left: 0;
 }
 
 // Main App
-#container {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  margin-top: 40px;
+.main-grid {
+  background-color: $primary;
   display: grid;
-  grid-template-columns: 5% 30% 30% 30% 5%;
-  grid-template-rows: auto;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
   // Layout of the app
   grid-template-areas:
-    ". . header . ."
-    ". . description . ."
-    ". sidebar map json-area ."
-    ". . legend . .";
+    '. . header . .'
+    '. . description . .'
+    '. sidebar map json-area .'
+    '. . legend . .';
+  grid-template-columns: 5% 30% 30% 30% 5%;
+  grid-template-rows: auto;
+}
 
-  // Header
-  .header {
-    grid-area: header;
-    text-align: center;
+// Header
+.header {
+  grid-area: header;
+  text-align: center;
+}
+
+// Description
+.description {
+  align-self: flex-end;
+  grid-area: description;
+  text-align: center;
+
+  a {
+    background-color: $tertiary;
+    border: 1px solid $primary;
+    border-radius: $border-radius;
+    color: $secondary;
+    padding: $size-sm;
+    text-decoration: none;
   }
 
-  // Description
-  .description {
-    grid-area: description;
-    text-align: center;
-    align-self: flex-end;
+  a:hover {
+    background-color: lighten($tertiary, 5%);
+  }
+}
 
-    a {
-      text-decoration: none;
-      color: white;
-      background-color: green;
-      border: 1px solid green;
-      border-radius: $border-radius;
+// Json Area =
+.json-area {
+  display: flex;
+  flex-direction: column;
+  grid-area: json-area;
+  margin-left: 20px;
 
-      &:hover {
-        background-color: lighten(green, 5%);
-      }
-    }
+  button {
+    width: 50%;
   }
 
-  // Json Area =
-  .json-area {
-    grid-area: json-area;
-    display: flex;
-    margin-left: 20px;
-    flex-direction: column;
-
-    button {
-      width: 50%;
-    }
-
-    .error {
-      color: red;
-    }
-
-    p {
-      margin-top: 0;
-    }
-
-    textarea {
-      min-width: 50%;
-      width: 400px;
-      max-width: 80%;
-      min-height: 25px;
-      height: 400px;
-      max-height: 500px;
-    }
+  .error {
+    color: $error;
   }
 
-  // Location List
-  .sidebar {
-    grid-area: sidebar;
-    width: 30%;
-    justify-self: flex-end;
-    display: flex;
-    flex-direction: column;
-    padding: 0 40px;
-
-    :nth-child(1) {
-      margin-top: 0;
-    }
-
-    // Style each list element
-    .location-button {
-      border: 1px solid blue;
-      margin: 5px;
-      width: 100%;
-
-      // Style an inactive list element
-      &-inactive {
-        border: 1px solid black;
-      }
-    }
-
-    // Current Location Text
-    .current-location {
-      grid-area: location;
-      text-align: left;
-      word-break: break-word;
-    }
+  p {
+    margin-top: 0;
   }
 
-  // Map Container
-  .map {
-    grid-area: map;
+  textarea {
+    height: 400px;
+    max-height: 500px;
+    max-width: 80%;
+    min-height: 25px;
+    min-width: 50%;
+    width: 400px;
+  }
+}
+
+// Location List
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  grid-area: sidebar;
+  justify-self: flex-end;
+  padding: 0 40px;
+  width: 30%;
+
+  :nth-child(1) {
+    margin-top: 0;
+  }
+
+  // Style each list element
+  .location-button {
+    border: 1px solid $primary;
+    margin: 5px;
     width: 100%;
-    height: 600px;
-    border: 1px solid black;
   }
 
-  // Legend
-  .legend {
-    grid-area: legend;
+  .location-button-inactive {
+    border: 1px solid $primary;
+  }
+
+  // Current Location Text
+  .current-location {
+    grid-area: location;
+    text-align: left;
+    word-break: break-word;
+  }
+}
+
+// Map Container
+.map {
+  border: 1px solid $primary;
+  grid-area: map;
+  height: 600px;
+  width: 100%;
+}
+
+// Legend
+.legend {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  grid-area: legend;
+
+  // Legend Title
+  &-title {
+    justify-self: center;
+  }
+
+  // Legend Container for list
+  &-container {
+    justify-self: center;
+    width: 50%;
+  }
+
+  // Legend Entry
+  &-entry {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    text-align: left;
+  }
 
-    // Legend Title
-    &-title {
-      justify-self: center;
-    }
+  &-entry p {
+    padding-right: 30px;
 
-    // Legend Container for list
-    &-container {
-      width: 50%;
-      justify-self: center;
-    }
+  }
 
-    // Legend Entry
-    &-entry {
-      display: flex;
-      text-align: left;
-      justify-content: center;
-
-      p {
-        padding-right: 30px;
-      }
-
-      img {
-        align-self: center;
-      }
-    }
+  &-entry img {
+    align-self: center;
   }
 }
 </style>
