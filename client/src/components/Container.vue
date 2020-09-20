@@ -334,76 +334,28 @@ export default {
 
 <style lang="scss">
 @import '@/scss/variables';
+@import '@/scss/elements';
 
-// Paragraphs
-.p {
-  color: $secondary;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-
-  &-large {
-    font-size: $font-lg;
-  }
-
-  &-medium {
-    font-size: $font-md;
-  }
-
-  &-small {
-    font-size: $font-sm;
-  }
-}
-
-// Images
-.img {
-  &-logo {
-    display: block;
-    padding: 0 auto;
-  }
-}
-
-// Buttons
-.btn {
-  border-radius: 0.25rem;
-  padding: 5px;
-}
-
-// Style lists
-.list {
-  list-style: none;
-  padding-left: 0;
-}
-
-// Main App
 .main-grid {
   background-color: $primary;
+  border-radius: $border-radius-md;
   display: grid;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  // Layout of the app
-  grid-template-areas:
-    '. . header . .'
-    '. . description . .'
-    '. sidebar map json-area .'
-    '. . legend . .';
-  grid-template-columns: 5% 30% 30% 30% 5%;
-  grid-template-rows: auto;
 }
 
 // Header
 .header {
-  grid-area: header;
   text-align: center;
 }
 
 // Description
 .description {
   align-self: flex-end;
-  grid-area: description;
   text-align: center;
 
   a {
     background-color: $tertiary;
     border: 1px solid $primary;
-    border-radius: $border-radius;
+    border-radius: $border-radius-md;
     color: $secondary;
     padding: $size-sm;
     text-decoration: none;
@@ -414,11 +366,10 @@ export default {
   }
 }
 
-// Json Area =
+// Json Area
 .json-area {
   display: flex;
   flex-direction: column;
-  grid-area: json-area;
   margin-left: 20px;
 
   button {
@@ -447,7 +398,6 @@ export default {
 .sidebar {
   display: flex;
   flex-direction: column;
-  grid-area: sidebar;
   justify-self: flex-end;
   padding: 0 40px;
   width: 30%;
@@ -469,7 +419,6 @@ export default {
 
   // Current Location Text
   .current-location {
-    grid-area: location;
     text-align: left;
     word-break: break-word;
   }
@@ -478,7 +427,6 @@ export default {
 // Map Container
 .map {
   border: 1px solid $primary;
-  grid-area: map;
   height: 600px;
   width: 100%;
 }
@@ -488,7 +436,6 @@ export default {
   align-items: center;
   display: flex;
   flex-direction: column;
-  grid-area: legend;
 
   // Legend Title
   &-title {

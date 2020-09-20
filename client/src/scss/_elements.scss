@@ -1,0 +1,51 @@
+@import '@/scss/variables';
+
+// Paragraphs
+.p {
+  color: $secondary;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  
+  &-large {
+    font-size: $font-lg;
+  }
+  
+  &-medium {
+    font-size: $font-md;
+  }
+  
+  &-small {
+    font-size: $font-sm;
+  }
+}
+  
+// Images
+.img {
+  &-logo {
+    display: block;
+    padding: 0 auto;
+  }
+}
+  
+// Buttons
+.btn {
+  border-radius: 0.25rem;
+  padding: $size-sm;
+  
+  &-primary {
+    background-color: $primary;
+  }
+  
+  &-secondary {
+    background-color: $secondary;
+  }
+  
+  &-tertiary {
+    background-color: $tertiary;
+  }
+}
+  
+// Style lists
+.list {
+  list-style: none;
+  padding-left: 0;
+}

@@ -1,5 +1,8 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    class="container"
+  >
     <Container />
   </div>
 </template>
@@ -14,3 +17,12 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.container {
+  display: flex;
+  height: 90vh;
+  margin: 0 auto;
+  overflow-x: hidden;
+  width: 50vw;
+}
+</style>
