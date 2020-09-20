@@ -1,8 +1,8 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
   },
-  "vetur.validation.template": false,
   "vetur.validation.script": false,
   "eslint.validate": [
     "javascript",
@@ -11,5 +11,8 @@
   ],
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
-  "eslint.run": "onSave"
+  "eslint.run": "onSave",
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false
 }
