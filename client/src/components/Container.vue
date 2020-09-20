@@ -143,11 +143,15 @@ export default {
      */
     locations () {
       // If the user chooses to use json.
-      if (this.mode === 'json') {
-        if (this.valid) {
-          if (Array.isArray(this.parsedJSON)) return this.parsedJSON
-          return [this.parsedJSON]
-        }
+      switch (this.mode) {
+        case 'json':
+          if (this.valid) {
+            if (Array.isArray(this.parsedJSON)) return this.parsedJSON
+            return [this.parsedJSON]
+          }
+          break
+        default:
+          log('Nothing')
       }
       return []
     },
