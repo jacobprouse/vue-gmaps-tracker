@@ -6,15 +6,22 @@ I made this repo to experience setting up a live web app. Its purpose is to trac
 ```
 [
   {
-    lat: ###,
-    lng: ###,
-    name: ###,
-    level: ###,
-    id: ###
+    "lat": ###,
+    "lng": ###,
+    "level": ###,
+    "name": string
   },
   ...
 ]
 ```
+
+## Env File
+# This is your api key for the Google Maps Javascript API
+VUE_APP_API_KEY=myapikey
+# Your host address
+VUE_APP_BASE_URL=http*
+# Threshold for location to be unmarked by default
+VUE_APP_THRESHOLD=50
 
 ## Project setup
 ```

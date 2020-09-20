@@ -1,44 +1,42 @@
 {
   "name": "vue-gmaps-tracker",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": " vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
+  "version": "1.0.0",
+  "description": "I made this repo to experience setting up a live web app. Its purpose is to track the product levels at a business' locations.",
+  "main": "index.js",
   "dependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "import-fresh": "^3.2.1",
+    "parent-module": "^1.0.1",
+    "path-is-absolute": "^1.0.1",
+    "path-key": "^3.1.1",
+    "prelude-ls": "^1.2.1",
+    "punycode": "^2.1.1",
+    "resolve-from": "^4.0.0",
+    "shebang-command": "^2.0.0",
+    "shebang-regex": "^3.0.0",
+    "slice-ansi": "^2.1.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.4.0",
-    "@vue/cli-plugin-eslint": "~4.4.0",
-    "@vue/cli-service": "~4.4.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "sass": "^1.26.10",
-    "sass-loader": "^9.0.2",
-    "vue-template-compiler": "^2.6.11"
+    "eslint": "^7.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^6.2.2"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
+  "scripts": {
+    "lint": "eslint *",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacobprouse/vue-gmaps-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jacobprouse/vue-gmaps-tracker/issues"
+  },
+  "homepage": "https://github.com/jacobprouse/vue-gmaps-tracker#readme"
 }
