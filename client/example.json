@@ -1,0 +1,5 @@
+[
+    {"name":"Toronto", "lat": 43.653225, "lng": -79.4, "level": 10, "threshold": 10},
+    {"name":"Toronto1", "lat": 43.653225, "lng": -79.5, "level": 10, "threshold": 10},
+    {"name":"Toronto2", "lat": 43.653225, "lng": -79.6, "level": 10, "threshold": 10}
+]
