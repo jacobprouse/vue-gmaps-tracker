@@ -29,6 +29,15 @@ module.exports = {
     'comma-dangle': 'error',
     'max-len': ['error', {
       code: 100
+    }],
+    'vue/html-self-closing': ['error', {
+      html: {
+        void: 'never',
+        normal: 'any',
+        component: 'any'
+      },
+      svg: 'always',
+      math: 'always'
     }]
   }
 }
