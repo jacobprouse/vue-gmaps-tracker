@@ -1,17 +1,18 @@
 <template>
-  <div class="main-grid">
+  <!-- Main Layout  -->
+  <div class="layout-main">
     <!-- Header -->
-    <p class="header p p-large">
-      Vue Gmaps Tracker
+    <div class="container-header">
+      <p class="header p p-large">
+        Trakr
+      </p>
       <img
         class="img img-logo"
         :src="`${baseURL}/marker_red.png`"
         alt
       >
-    </p>
-    <div class="description">
-      <p class="p p-medium">
-        Track your products all over the world!
+      <p class="p p-small">
+        Need to track... <span class="p p-medium p-greeting">{{ randomGreeting() }}</span>
       </p>
       <p class="p p-small">
         Copy and paste json using structure suggested in the
@@ -20,47 +21,116 @@
         >README.md</a>
       </p>
     </div>
-    <!-- Map -->
-    <div
-      ref="map"
-      class="map"
-    />
-    <!-- Json Area -->
-    <div class="json-area">
-      <p>
-        <strong>JSON Data</strong>
-      </p>
-      <textarea
-        v-model.lazy="json"
-        aria-required="true"
-        :aria-invalid="!valid"
-        placeholder="Paste JSON here..."
-      />
-      <button
-        class="btn"
-        :disabled="!valid"
-        alt="Load a new map."
-        title="Load a new map"
-        @click="makeMap"
+    <div class="tab">
+      <!-- Tab NavBar -->
+      <div class="tab-nav">
+        <div class="tab-nav-item">
+          <fa-icon
+            class="tab-nav-item"
+            @click="currentTab = tabs[0]"
+            :icon="['fas','cog']"
+          ></fa-icon>
+        </div>
+        <div class="tab-nav-item">
+          <fa-icon
+            class="tab-nav-item"
+            @click="currentTab = tabs[1]"
+            :icon="['fas','map-marked-alt']"
+          ></fa-icon>
+        </div>
+        <div>
+          <fa-icon
+            class="tab-nav-item"
+            @click="currentTab = tabs[2]"
+            :icon="['fas','globe']"
+          ></fa-icon>
+        </div>
+      </div>
+      <!-- Locations Tab -->
+      <div
+        v-show="currentTab === 'locations'"
+        class="tab-content"
       >
-        Load Map
-      </button>
-      <p
-        v-if="!valid"
-        class="error"
-        aria-hidden="true"
-        role="alert"
+        <p v-if="locations.length">
+          <strong>Locations</strong>
+        </p>
+        <ul
+          v-if="locations.length"
+          class="list"
+        >
+          <li
+            v-for="(location, index) in locations"
+            :key="index"
+          >
+            <button
+              :title="disabled(location) ? '' : 'Center on Map'"
+              :disabled="disabled(location)"
+              :alt="`Click to center ${location.name} on the map.`"
+              class="button location-button"
+              :class="{ 'location-button-inactive': disabled(location) }"
+              @click="goTo(location)"
+            >
+              {{ location.name }}
+            </button>
+          </li>
+        </ul>
+        <p class="p p-large p-feedback">
+          Go to the settings tab to populate your map!
+        </p>
+      </div>
+      <!-- Map Tab -->
+      <div
+        v-show="currentTab === 'map'"
+        class="tab-content"
       >
-        Invalid JSON
-      </p>
+        <!-- Map -->
+        <div
+          ref="map"
+          class="map"
+        />
+      </div>
+      <!-- Settings Tab -->
+      <div
+        v-show="currentTab === 'settings'"
+        class="tab-content"
+      >
+        <!-- Json Area -->
+        <div class="json-area">
+          <p>
+            <strong>JSON Data</strong>
+          </p>
+          <textarea
+            v-model.lazy="json"
+            aria-required="true"
+            :aria-invalid="!valid"
+            placeholder="Paste JSON here..."
+          />
+          <button
+            class="btn"
+            :disabled="!valid"
+            alt="Load a new map."
+            title="Load a new map"
+            @click="makeMap"
+          >
+            Load Map
+          </button>
+          <p
+            v-if="!valid"
+            class="p p-small error"
+            aria-hidden="true"
+            role="alert"
+          >
+            Invalid JSON
+          </p>
+        </div>
+      </div>
     </div>
     <!-- Location List -->
-    <div class="sidebar">
+    <!-- <div class="sidebar">
       <p v-if="locations.length">
         <strong>Locations</strong>
       </p>
       <ul class="list">
-        <!-- Legend Entry -->
         <li
           v-for="(location, index) in locations"
           :key="index"
@@ -77,16 +147,15 @@
           </button>
         </li>
       </ul>
-      <!--  Current Location -->
       <p
         v-if="currentLocation"
         class="current-location"
       >
         You are centered on {{ currentLocation.name }}
       </p>
-    </div>
+    </div> -->
     <!-- Legend -->
-    <div class="legend">
+    <!-- <div class="legend">
       <p class="legend-title">
         Legend
       </p>
@@ -108,7 +177,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -135,7 +204,13 @@ export default {
       baseURL: process.env.VUE_APP_BASE_URL,
       json: '',
       threshold: parseInt(process.env.VUE_APP_THRESHOLD) || 50,
-      providedURL: ''
+      providedURL: '',
+      tabs: [
+        'settings',
+        'locations',
+        'map'
+      ],
+      currentTab: 0
     }
   },
   computed: {
@@ -221,6 +296,19 @@ export default {
     }
   },
   methods: {
+    randomGreeting () {
+      const randomInt = Math.floor(Math.random() * 3)
+      const greetings = [
+        'library book bins in Toronto?',
+        'recycle boxes in Vancouver?',
+        'uni textbook dropoffs around London?'
+      ]
+      return greetings[randomInt]
+    },
+    /**
+     * Use the provided url.
+     * @function
+     */
     async getLocations () {
       const response = await axios.get(this.providedURL)
       log(response)
@@ -335,34 +423,29 @@ export default {
 <style lang="scss">
 @import '@/scss/variables';
 @import '@/scss/elements';
+@import '@/scss/containers';
 
-.main-grid {
+// Main Layout
+.layout-main {
   background-color: $primary;
   border-radius: $border-radius-md;
-  display: grid;
-}
+  padding: $size-base;
 
-// Header
-.header {
-  text-align: center;
-}
-
-// Description
-.description {
-  align-self: flex-end;
-  text-align: center;
-
-  a {
-    background-color: $tertiary;
-    border: 1px solid $primary;
-    border-radius: $border-radius-md;
-    color: $secondary;
-    padding: $size-sm;
-    text-decoration: none;
+  @media (min-width: 600px) {
+    height: 90vh;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 80vw;
   }
+}
 
-  a:hover {
-    background-color: lighten($tertiary, 5%);
+// Header Container
+.container-header {
+  text-align: center;
+
+  .p-greeting {
+    font-style: italic;
+    text-decoration: underline;
   }
 }
 
@@ -457,7 +540,6 @@ export default {
 
   &-entry p {
     padding-right: 30px;
-
   }
 
   &-entry img {
