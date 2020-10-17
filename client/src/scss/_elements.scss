@@ -1,34 +1,62 @@
 @import '@/scss/variables';
 
+// Anchors
+a {
+  background-color: $tertiary;
+  border: 1px solid $primary;
+  border-radius: $border-radius-md;
+  color: $secondary;
+  padding: $size-sm;
+  text-decoration: none;
+	
+  &:hover {
+    background-color: lighten($tertiary, 5%);
+  }
+}
+
+
 // Paragraphs
 .p {
   color: $secondary;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 0;
+	
+  // All paragraphs with a previous sibling have a margin top.
+  + p {
+    margin-top: $size-sm;
+  }
   
   &-large {
-    font-size: $font-lg;
+    font-size: $font-md;
+    @media (min-width: 600px) {
+      font-size: $font-lg;
+    }
   }
   
   &-medium {
-    font-size: $font-md;
+    font-size: $font-sm;
+    @media (min-width: 600px) {
+      font-size: $font-md;
+    }
   }
   
   &-small {
-    font-size: $font-sm;
+    font-size: $font-xs;
+    @media (min-width: 600px) {
+      font-size: $font-sm;
+    }
   }
 }
   
 // Images
 .img {
-  &-logo {
-    display: block;
-    padding: 0 auto;
-  }
+  margin: $size-sm;
 }
   
 // Buttons
 .btn {
   border-radius: 0.25rem;
+  margin: $size-sm;
   padding: $size-sm;
   
   &-primary {

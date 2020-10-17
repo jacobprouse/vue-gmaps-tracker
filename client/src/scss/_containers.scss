@@ -1,0 +1,20 @@
+@import '@/scss/variables';
+
+.tab {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-nav {
+  display: flex;
+  flex-direction: row;
+
+  &-item {
+    color: $secondary;
+  }
+}
+
+
+.tab-content {
+  padding: $size-sm;
+}
