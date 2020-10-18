@@ -3,14 +3,6 @@
   <div class="layout-main">
     <!-- Header -->
     <div class="container-header">
-      <p class="header p p-large">
-        Trakr
-      </p>
-      <img
-        class="img img-logo"
-        :src="`${baseURL}/marker_red.png`"
-        alt
-      >
       <p class="p p-small">
         Need to track... <span class="p p-medium p-greeting">{{ randomGreeting() }}</span>
       </p>
@@ -26,21 +18,21 @@
       <div class="tab-nav">
         <div class="tab-nav-item">
           <fa-icon
-            class="tab-nav-item"
+            class="tab-nav-item icon-large"
             @click="currentTab = tabs[0]"
             :icon="['fas','cog']"
           ></fa-icon>
         </div>
         <div class="tab-nav-item">
           <fa-icon
-            class="tab-nav-item"
+            class="tab-nav-item icon-large"
             @click="currentTab = tabs[1]"
             :icon="['fas','map-marked-alt']"
           ></fa-icon>
         </div>
         <div>
           <fa-icon
-            class="tab-nav-item"
+            class="tab-nav-item icon-large"
             @click="currentTab = tabs[2]"
             :icon="['fas','globe']"
           ></fa-icon>
@@ -187,11 +179,17 @@ import debug from 'debug'
 import gmapsInit from '@/utils/gmaps'
 import { Location } from '@/utils/classes'
 
-const log = debug('vgm:container')
+const log = debug('trackr:container')
 log.log = console.log.bind(console)
 
 export default {
   name: 'Container',
+  props: {
+    loading: {
+      type: Boolean,
+      required: true
+    }
+  },
   data () {
     return {
       apiKey: null,
@@ -420,7 +418,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import '@/scss/mixins/breakpoints';
 @import '@/scss/variables';
 @import '@/scss/elements';
 @import '@/scss/containers';
@@ -430,12 +429,8 @@ export default {
   background-color: $primary;
   border-radius: $border-radius-md;
   padding: $size-base;
-
-  @media (min-width: 600px) {
-    height: 90vh;
-    margin: 0 auto;
-    overflow: hidden;
-    width: 80vw;
+  @include media-breakpoint-up(sm) {
+    max-width: 1200px;
   }
 }
 
