@@ -17,6 +17,22 @@ $font-sm: $font-base * 0.8;
 $font-md: $font-base * 1.2;
 $font-lg: $font-base * 1.6;
 
+// Icon Sizes
+$icon-base: 1.8em;
+$icon-sm: $icon-base * 0.8;
+$icon-md: $icon-base * 1.2;
+$icon-lg: $icon-base * 1.6;
+$icon-xl: $icon-base * 1.8;
+
+
 // Borders
 $border-radius-base: 0.25em;
 $border-radius-md: 0.5em;
+
+// Breakpoints
+$breakpoints: (
+  xs: 576px,
+  sm: 768px,
+  md: 992px,
+  lg: 1200px
+);

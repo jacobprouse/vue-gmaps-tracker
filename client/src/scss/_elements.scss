@@ -1,4 +1,5 @@
 @import '@/scss/variables';
+@import '@/scss/mixins/breakpoints';
 
 // Anchors
 a {
@@ -11,6 +12,29 @@ a {
 	
   &:hover {
     background-color: lighten($tertiary, 5%);
+  }
+}
+
+.icon {
+  &-large {
+    font-size: $icon-lg;
+    @include media-breakpoint-up(sm) {
+      font-size: $icon-xl;
+    }
+  }
+  
+  &-medium {
+    font-size: $icon-md;
+    @include media-breakpoint-up(sm) {
+      font-size: $icon-lg;
+    }
+  }
+  
+  &-small {
+    font-size: $icon-sm;
+    @include media-breakpoint-up(sm) {
+      font-size: $icon-md;
+    }
   }
 }
 
@@ -28,21 +52,21 @@ a {
   
   &-large {
     font-size: $font-md;
-    @media (min-width: 600px) {
+    @include media-breakpoint-up(sm) {
       font-size: $font-lg;
     }
   }
   
   &-medium {
     font-size: $font-sm;
-    @media (min-width: 600px) {
+    @include media-breakpoint-up(sm) {
       font-size: $font-md;
     }
   }
   
   &-small {
     font-size: $font-xs;
-    @media (min-width: 600px) {
+    @include media-breakpoint-up(sm) {
       font-size: $font-sm;
     }
   }

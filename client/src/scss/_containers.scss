@@ -1,10 +1,12 @@
 @import '@/scss/variables';
 
+// Tabs
 .tab {
   display: flex;
   flex-direction: column;
 }
 
+// Tabs - Nav
 .tab-nav {
   display: flex;
   flex-direction: row;
@@ -14,7 +16,20 @@
   }
 }
 
-
+// Tabs - Content
 .tab-content {
   padding: $size-sm;
+}
+
+// Header
+.header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  transition: all 1s linear;
+
+  &-loading {
+    transform: translateY(200px);
+  }
 }
