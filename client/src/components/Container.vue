@@ -1,122 +1,108 @@
 <template>
-  <!-- Main Layout  -->
-  <div class="layout-main">
-    <!-- Header -->
-    <div class="container-header">
-      <p class="p p-small">
-        Need to track... <span class="p p-medium p-greeting">{{ randomGreeting() }}</span>
-      </p>
-      <p class="p p-small">
+  <div
+    class="wrapper"
+    :class="{'wrapper-loading': loading}"
+  >
+    <div
+      class="container"
+    >
+    </div>
+    <!-- Main Layout  -->
+    <div
+      class="layout-main"
+      style="display: none;"
+      :class="{'layout-main-loading': loading}"
+    >
+      <!-- Header -->
+      <!-- <div class="container-header">
+      <p class="p p-sm">
         Copy and paste json using structure suggested in the
         <a
           href="https://github.com/jacobprouse/vue-gmaps-tracker/blob/master/README.md"
         >README.md</a>
       </p>
-    </div>
-    <div class="tab">
-      <!-- Tab NavBar -->
-      <div class="tab-nav">
-        <div class="tab-nav-item">
-          <fa-icon
-            class="tab-nav-item icon-large"
-            @click="currentTab = tabs[0]"
-            :icon="['fas','cog']"
-          ></fa-icon>
-        </div>
-        <div class="tab-nav-item">
-          <fa-icon
-            class="tab-nav-item icon-large"
-            @click="currentTab = tabs[1]"
-            :icon="['fas','map-marked-alt']"
-          ></fa-icon>
-        </div>
-        <div>
-          <fa-icon
-            class="tab-nav-item icon-large"
-            @click="currentTab = tabs[2]"
-            :icon="['fas','globe']"
-          ></fa-icon>
-        </div>
-      </div>
-      <!-- Locations Tab -->
-      <div
-        v-show="currentTab === 'locations'"
-        class="tab-content"
-      >
-        <p v-if="locations.length">
-          <strong>Locations</strong>
-        </p>
-        <ul
-          v-if="locations.length"
-          class="list"
-        >
-          <li
-            v-for="(location, index) in locations"
-            :key="index"
-          >
-            <button
-              :title="disabled(location) ? '' : 'Center on Map'"
-              :disabled="disabled(location)"
-              :alt="`Click to center ${location.name} on the map.`"
-              class="button location-button"
-              :class="{ 'location-button-inactive': disabled(location) }"
-              @click="goTo(location)"
-            >
-              {{ location.name }}
-            </button>
-          </li>
-        </ul>
-        <p class="p p-large p-feedback">
-          Go to the settings tab to populate your map!
-        </p>
-      </div>
-      <!-- Map Tab -->
-      <div
-        v-show="currentTab === 'map'"
-        class="tab-content"
-      >
-        <!-- Map -->
+    </div> -->
+      <div class="tab">
+        <!-- Locations Tab -->
         <div
-          ref="map"
-          class="map"
-        />
-      </div>
-      <!-- Settings Tab -->
-      <div
-        v-show="currentTab === 'settings'"
-        class="tab-content"
-      >
-        <!-- Json Area -->
-        <div class="json-area">
-          <p>
-            <strong>JSON Data</strong>
+          v-show="currentTab === 'locations'"
+          class="tab-content"
+        >
+          <p v-if="locations.length">
+            <strong>Locations</strong>
           </p>
-          <textarea
-            v-model.lazy="json"
-            aria-required="true"
-            :aria-invalid="!valid"
-            placeholder="Paste JSON here..."
-          />
-          <button
-            class="btn"
-            :disabled="!valid"
-            alt="Load a new map."
-            title="Load a new map"
-            @click="makeMap"
+          <ul
+            v-if="locations.length"
+            class="list"
           >
-            Load Map
-          </button>
-          <p
-            v-if="!valid"
-            class="p p-small error"
-            aria-hidden="true"
-            role="alert"
-          >
-            Invalid JSON
+            <li
+              v-for="(location, index) in locations"
+              :key="index"
+            >
+              <button
+                :title="disabled(location) ? '' : 'Center on Map'"
+                :disabled="disabled(location)"
+                :alt="`Click to center ${location.name} on the map.`"
+                class="button location-button"
+                :class="{ 'location-button-inactive': disabled(location) }"
+                @click="goTo(location)"
+              >
+                {{ location.name }}
+              </button>
+            </li>
+          </ul>
+          <p class="p p-lg p-feedback">
+            Go to the settings tab to populate your map!
           </p>
         </div>
+        <!-- Map Tab -->
+        <div
+          v-show="currentTab === 'map'"
+          class="tab-content"
+        >
+          <!-- Map -->
+          <div
+            ref="map"
+            class="map"
+          />
+        </div>
+        <!-- Settings Tab -->
+        <div
+          v-show="currentTab === 'settings'"
+          class="tab-content"
+        >
+          <!-- Json Area -->
+          <div class="json-area">
+            <p>
+              <strong>JSON Data</strong>
+            </p>
+            <textarea
+              v-model.lazy="json"
+              aria-required="true"
+              :aria-invalid="!valid"
+              placeholder="Paste JSON here..."
+            />
+            <button
+              class="btn"
+              :disabled="!valid"
+              alt="Load a new map."
+              title="Load a new map"
+              @click="makeMap"
+            >
+              Load Map
+            </button>
+            <p
+              v-if="!valid"
+              class="p p-sm error"
+              aria-hidden="true"
+              role="alert"
+            >
+              Invalid JSON
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+
     <!-- Location List -->
     <!-- <div class="sidebar">
       <p v-if="locations.length">
@@ -170,6 +156,42 @@
         </ul>
       </div>
     </div> -->
+    </div>
+    <div
+      class="nav"
+      :class="{'nav-loading': loading}"
+    >
+      <div
+        class="nav-item"
+        :class="{'nav-item-active': currentTab === tabs[0] }"
+      >
+        <fa-icon
+          class="tab-nav-item icon-lg"
+          @click="currentTab = tabs[0]"
+          :icon="['fas','cog']"
+        ></fa-icon>
+      </div>
+      <div
+        class="nav-item"
+        :class="{'nav-item-active': currentTab === tabs[2] }"
+      >
+        <fa-icon
+          class="tab-nav-item icon-lg"
+          @click="currentTab = tabs[2]"
+          :icon="['fas','globe']"
+        ></fa-icon>
+      </div>
+      <div
+        class="nav-item"
+        :class="{'nav-item-active': currentTab === tabs[1] }"
+      >
+        <fa-icon
+          class="tab-nav-item icon-lg"
+          @click="currentTab = tabs[1]"
+          :icon="['fas','map-marked-alt']"
+        ></fa-icon>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -294,15 +316,6 @@ export default {
     }
   },
   methods: {
-    randomGreeting () {
-      const randomInt = Math.floor(Math.random() * 3)
-      const greetings = [
-        'library book bins in Toronto?',
-        'recycle boxes in Vancouver?',
-        'uni textbook dropoffs around London?'
-      ]
-      return greetings[randomInt]
-    },
     /**
      * Use the provided url.
      * @function
@@ -422,16 +435,29 @@ export default {
 @import '@/scss/mixins/breakpoints';
 @import '@/scss/variables';
 @import '@/scss/elements';
-@import '@/scss/containers';
 
-// Main Layout
-.layout-main {
-  background-color: $primary;
-  border-radius: $border-radius-md;
-  padding: $size-base;
+.wrapper {
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: column;
+  transition: all 200ms linear;
+  transition-delay: 1s;
   @include media-breakpoint-up(sm) {
     max-width: 1200px;
   }
+
+  &-loading {
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+.container {
+  background-color: $primary;
+  border-radius: $border-radius-md;
+  flex: 1 1 100%;
+  padding: $size-base;
 }
 
 // Header Container

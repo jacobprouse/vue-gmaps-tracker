@@ -16,21 +16,21 @@ a {
 }
 
 .icon {
-  &-large {
+  &-lg {
     font-size: $icon-lg;
     @include media-breakpoint-up(sm) {
       font-size: $icon-xl;
     }
   }
   
-  &-medium {
+  &-md {
     font-size: $icon-md;
     @include media-breakpoint-up(sm) {
       font-size: $icon-lg;
     }
   }
   
-  &-small {
+  &-sm {
     font-size: $icon-sm;
     @include media-breakpoint-up(sm) {
       font-size: $icon-md;
@@ -50,25 +50,29 @@ a {
     margin-top: $size-sm;
   }
   
-  &-large {
+  &-lg {
     font-size: $font-md;
     @include media-breakpoint-up(sm) {
       font-size: $font-lg;
     }
   }
   
-  &-medium {
+  &-md {
     font-size: $font-sm;
     @include media-breakpoint-up(sm) {
       font-size: $font-md;
     }
   }
   
-  &-small {
+  &-sm {
     font-size: $font-xs;
     @include media-breakpoint-up(sm) {
       font-size: $font-sm;
     }
+  }
+
+  &-logo {
+    color: $tertiary;
   }
 }
   
@@ -100,4 +104,29 @@ a {
 .list {
   list-style: none;
   padding-left: 0;
+}
+
+// Tabs
+.nav {
+  border-bottom: 2px solid $secondary;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  transition: all 1s linear;
+
+  // Tab Item
+  &-item {
+    color: $primary;
+    padding: $size-sm;
+    transition: all 200ms ease-in-out;
+
+    &-active {
+      transform: translateY(-10px);
+    }
+  }
+
+  &-loading {
+    opacity: 0.2;
+  }
 }

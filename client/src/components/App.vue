@@ -1,6 +1,9 @@
 <template>
   <div class="app">
-    <Header :loading="loading" />
+    <Header
+      :loading="loading"
+      @tracking="loading = false"
+    />
     <Container :loading="loading" />
   </div>
 </template>
@@ -40,9 +43,12 @@ body {
 
 // Main Component
 .app {
-  background-color: $primary;
+  background-color: $secondary;
   border-radius: 20px;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   overflow: hidden;
+  padding: 0 10px;
 }
 </style>
